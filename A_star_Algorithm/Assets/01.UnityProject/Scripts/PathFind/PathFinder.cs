@@ -209,6 +209,7 @@ public class PathFinder : GSingleton<PathFinder>
         // Heruistic은 직선거리로 고정한다.
         Vector2 localDistance = destinationObj.transform.localPosition - targetNode.Terrain.transform.localPosition;
         float heuristic = Mathf.Abs(localDistance.magnitude);
+        // float heuristic = 0.0f;  다익스트라 알고리즘 : 휴리스틱 추정 값을 0으로 만듦.
         // } Target 지형에서 Destination 까지의 2D 타일 거리를 계산하는 로직
 
         // { 이전 노드가 존재하는 경우, 이전 노드의 코스트를 추가해서 연산한다.
