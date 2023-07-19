@@ -69,6 +69,7 @@ public class Terrain_Map : TileMap_Controller   // 타일맵 컨트롤러 상속
             tempChangeTile.SetLocalPos(allTileObjs[i].transform.localPosition);
 
             allTileObjs.Swap(ref tempChangeTile, i);
+            tempChangeTile.DestroyObj();
         }
         // } 타일맵의 일부를 일정 확률로 다른 타일로 교체하는 로직
 
@@ -97,7 +98,7 @@ public class Terrain_Map : TileMap_Controller   // 타일맵 컨트롤러 상속
                     break;
             }
 
-            // TODO: tempTerrain Setup 함수 필요함.
+            tempTerrain.SetupTerrain(mapController, terrainType, loopCnt);
             tempTerrain.transform.SetAsFirstSibling();
             allTerrains.Add(tempTerrain);
             loopCnt += 1;

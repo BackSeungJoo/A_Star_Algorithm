@@ -6,16 +6,22 @@ using UnityEngine.TerrainUtils;
 public class MapBoard : MonoBehaviour
 {
     private const string TERRAIN_MAP_OBJ_NAME = "Terrain_Grid";
+    private const string OBSTACLE_MAP_OBJ_NAME = "Obstacle_Grid";
 
     public Vector2Int MapcellSize { get; private set; } = default;
     public Vector2 MapcellGap { get; private set; } = default;
 
     private Terrain_Map terrainMap = default;
+    private ObstacleMap obstacleMap = default;
 
     private void Awake()
     {
         // { 매니저 스크립트를 초기화한다.
         ResManager.Instance.Create();
+
+        // PathFinder 초기화
+        PathFinder.Instance.Create();
+        PathFinder.Instance.mapBoard = this;
         // } 매니저 스크립트를 초기화한다.
 
         // { 맵에 지형을 초기화하여 배치한다.
@@ -24,6 +30,12 @@ public class MapBoard : MonoBehaviour
         MapcellSize = terrainMap.GetCellSize();
         MapcellGap = terrainMap.GetCellGap();
         // } 맵에 지형을 초기화하여 배치한다.
+
+        // { 맵에 지물을 초기화하여 배치한다.
+        obstacleMap = gameObject.FindChildComponent<ObstacleMap>(OBSTACLE_MAP_OBJ_NAME);
+        obstacleMap.InitAwake(this);
+        // } 맵에 지물을 초기화하여 배치한다.
+
     }
 
     //! 타일 인덱스를 받아서 해당 타일을 리턴하는 함수
@@ -68,7 +80,7 @@ public class MapBoard : MonoBehaviour
     {
         Vector2Int tileIdx2D = Vector2Int.zero;
         tileIdx2D.x = idx1D % MapcellSize.x;
-        tileIdx2D.y = idx1D / MapcellSize.y;
+        tileIdx2D.y = idx1D / MapcellSize.x; //왜 x로 나누니?
 
         return tileIdx2D;
     }       // GetTileIdx2d ()
